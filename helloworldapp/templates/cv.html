@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>My Website</title>
+
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), lightgray;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: linear-gradient(to bottom, #888 0%, #333 100%);
+            padding: 10px;
+            color: white;
+            text-align: right;
+            position: fixed;
+            top: 0; /* Position the navbar at the top */
+            left: 0;
+            width: 100%;
+        }
+        .navbar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .navbar li::after {
+            content: "";
+            display: block;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: black;
+            transform: scaleX(0);
+            transform-origin: 0 0;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar li:hover::after {
+            transform: scaleX(1);
+        }
+
+        .content {
+            padding: 30px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: white;
+            font-size: 20px;
+            display: none;
+            text-align: center;
+        }
+        
+        .login-button {
+            background-color: red;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .center input {
+            width: 50%; /* Set a fixed width for all input elements */
+            margin: 5px; /* Adjust margin for spacing between elements */
+            padding: 5px; /* Adjust padding for spacing within elements */
+        }
+        
+        .center label,
+        .center input {
+            margin: 5px; /* Adjust margin for spacing between elements */
+            padding: 5px; /* Adjust padding for spacing within elements */
+        }
+    
+    </style>
+</head>
+<body>
+    <!-- Menu Bar -->
+    <div class="navbar">
+        <ul>
+            <li><a href="#home" onclick="showContent('home')">Home</a></li>
+            <li><a href="#about" onclick="showContent('about')">About</a></li>
+            <li><a href="#contact" onclick="showContent('contact')">Contact</a></li>
+        </ul>
+    </div>
+
+    <!-- Home Page Section -->
+    <!-- Home Page Section -->
+<div id="home-content" class="center">
+    <h1>Enter Data to predict Diabetes value</h1>
+    <form method="post" action="{% url 'hello' %}">
+        {% csrf_token %}
+
+        <label for="pregnancy-input">Pregnancy:</label><br>
+        <input type="number" name="pregnancy" id="pregnancy-input" min="0" max="20" pattern="[1-9]|1[0-9]|20" title="Please enter a number between 1 and 20."><br>
+        
+        <label for="insulin-input">Insulin Level:</label><br>
+        <input type="number" name="insulin" id="insulin-input" min="1" max="200" pattern="[1-9]|1[0-9]|20" title="Please enter a number between 1 and 200."><br>
+
+        <label for="bmi-input">BMI:</label><br>
+        <input type="number" name="bmi" id="bmi-input" min="10" max="200" pattern="[1-9]|1[0-9]|20" title="Please enter a number between 10 and 200."><br>
+
+        <label for="age-input">Age:</label><br>
+        <input type="number" name="age" id="age-input" min="1" max="150" pattern="[1-9]|1[0-9]|20" title="Please enter a number between 1 and 150."><br>
+
+        <label for="glucose-input">Glucose Level:</label><br>
+        <input type="number" name="glucose" id="glucose-input" min="1" max="500" pattern="[1-9]|1[0-9]|20" title="Please enter a number between 1 and 500."><br>
+
+        <label for="bp-input">Blood Pressure:</label><br>
+        <input type="number" name="bp" id="bp-input" min="1" max="300" pattern="[1-9]|1[0-9]|20" title="Please enter a number between 1 and 300."><br>
+
+        <label for="pedigree-input">Pedigree:</label><br>
+        <input type="number" name="pedigree" id="pedigree-input" min="0" max="50" pattern="[1-9]|1[0-9]|20" title="Please enter a number between 0 and 50."><br>
+
+        <input type="submit" value="Submit">
+    </form>
+    {% if result %}
+    <p>{{ result }}</p>
+    {% endif %}
+</div>
+
+</body>
+</html>

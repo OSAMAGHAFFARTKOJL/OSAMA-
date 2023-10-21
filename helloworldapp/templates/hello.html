@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+    <title>My Website</title>
+
+    <!-- Add your CSS stylesheets here -->
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <style>
+        /* Add CSS styles for the black bar and menu items */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden; /* Prevent scrolling */
+        }
+
+        body::before {
+            content: "";
+            background: rgba(255, 255, 255, 0.3); /* Lighter shade (adjust opacity as needed) */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Place the shade behind other content */
+        }
+
+        .navbar {
+            
+            background: linear-gradient(to bottom, #888 0%, #333 100%); /* Gradient from gray to light black */
+    
+            padding: 10px;
+            color: white;
+            text-align: right;
+            position: relative;
+            
+            
+        }
+       
+        
+        .navbar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar li {
+            display: inline;
+            margin-right: 20px;
+            position: relative;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Add a black line under menu items */
+        .navbar li::after {
+            content: "";
+            display: block;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: black;
+            transform: scaleX(0);
+            transform-origin: 0 0;
+            transition: transform 0.3s ease;
+        }
+
+        /* Show the black line on hover */
+        .navbar li:hover::after {
+            transform: scaleX(1);
+        }
+
+        /* Add CSS styles for the content sections */
+        .content {
+            padding: 20px;
+            position: absolute;
+            top: 60px; /* Adjust the top position as needed */
+            left: 20px; /* Adjust the left position as needed */
+            color: white; /* Text color set to white for contrast with black background */
+            font-size: 20px;
+            display: none; /* Hide content by default */
+        }
+        
+        /* Style the login button with a red background */
+        .login-button {
+            background-color: red;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+    
+        .img {
+            background-size: cover;
+            width:100%;
+            background-repeat: no-repeat;
+            background-attachment : fixed; /* Adjust the background size for tablets and mobile devices */
+            background-position: center; /* Center-align the background image horizontally and vertically */
+            height: 100vh; /* Set a fixed height for the container to maintain aspect ratio */
+        }
+        .cv-button {
+            font-size: 24px; /* Increase the font size */
+            background-color: red; /* Set the background color to red */
+            color: black; /* Set the text color to black */
+            padding: 10px 20px; /* Adjust the padding to increase button size */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    
+        .cv-button:hover {
+            background-color: darkred; /* Change the background color on hover */
+        }
+        .footer {
+             /* Initially hide the footer */
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background color */
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+        .content {
+            text-align: center;
+        }
+    
+        table {
+            margin: 0 auto;
+        }
+    
+        table td {
+            text-align: right;
+            padding: 5px;
+        }
+    
+        .cv-button {
+            margin-top: 10px;
+        }
+      
+
+
+
+    
+        
+    
+    </style>
+</head>
+<body>
+
+    <!-- Menu Bar -->
+    <div class="navbar">
+        <ul>
+            <li><a href="#home" onclick="showContent('home')">Home</a></li>
+            <li><a href="#about" onclick="showContent('about')">About</a></li>
+            <li><a href="#contact" onclick="showContent('contact')">Contact</a></li>
+            <li><a href="#login" onclick="showContent('login')" class="login-button">Login</a></li>
+        </ul>
+    </div>
+
+    <!-- Full-width Image -->
+    <img src="{% static 'images/background.jpg' %}" alt="Background Image" class="img">
+    <svg class="lightning-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+        <!-- You can add lightning shapes here -->
+    </svg>
+    <!-- Home Page Section -->
+    <div id="home-content" class="content active">
+        <h1>Enter Data to predict Diabetes value</h1>
+        <form method="post" action="{% url 'hello' %}">
+            {% csrf_token %}
+        
+            <label for="pregnancy-input">Pregnancy:</label>
+            <input type="number" name="pregnancy" id="pregnancy-input"><br>
+        
+            <label for="insulin-input">Insulin Level:</label>
+            <input type="number" name="insulin" id="insulin-input"><br>
+        
+            <label for="bmi-input">BMI:</label>
+            <input type="number" name="bmi" id="bmi-input"><br>
+        
+            <label for="age-input">Age:</label>
+            <input type="number" name="age" id="age-input"><br>
+        
+            <label for="glucose-input">Glucose Level:</label>
+            <input type="number" name="glucose" id="glucose-input"><br>
+        
+            <label for="bp-input">Blood Pressure:</label>
+            <input type="number" name="bp" id="bp-input"><br>
+
+            <label for="pedigree-input">Pedigree:</label>
+            <input type="number" name="pedigree" id="pedigree-input"><br>
+        
+            <input type="submit" value="Submit">
+        </form>
+        {% if result %}
+        <p>{{ result }}</p>
+        {% endif %}    <br></br>
+</div>
+
+    
+    <!-- About Page Section -->
+    <div id="about-content" class="content">
+        <h1>About Us</h1>
+        <p>This is the content of the about page.</p>
+    </div>
+
+    <!-- Contact Page Section -->
+    <div id="contact-content" class="content">
+        <h1>Contact Us</h1>
+        <p>This is the content of the contact page.</p>
+    </div>
+
+
+    <!-- Login Page Section -->
+    <div id="login-content" class="content">
+      <h1>Login to the page</h1>
+       <form id="login-form">
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required oninput="blinkLine()">
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required oninput="blinkLine()">
+        </div>
+        <button type="button" id="login-button" class="login-button">Login</button>
+        <div id="login-error" style="color: red;">
+
+     </form>
+    </div>
+    <div class="footer" id="footer">
+        <!-- Footer content goes here -->
+        &copy; DIABETES PREDECTION
+    </div>
+   
+
+    
+
+    <!-- Add more sections for additional pages as needed -->
+   <!-- JavaScript -->
+<!-- JavaScript -->
+<!-- JavaScript -->
+<!-- JavaScript -->
+<!-- JavaScript -->
+<!-- JavaScript -->
+<!-- JavaScript -->
+<script>
+    let isLoggedIn = false; // Initially, the user is not logged in
+    
+    
+    // Function to show content sections
+    function showContent(sectionId) {
+        const contentSections = document.querySelectorAll('.content');
+        contentSections.forEach(section => {
+            section.style.display = 'none';
+        });
+
+        const selectedSection = document.getElementById(sectionId + '-content');
+        if (selectedSection) {
+            selectedSection.style.display = 'block';
+        }
+    }
+
+    // Function to handle login
+    
+    function handleLogin() {
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const loginError = document.getElementById('login-error');
+        const username = usernameInput.value;
+        const password = passwordInput.value;
+
+        // Check if the entered username and password are correct
+        if (username === 'osama' && password === 'osama') {
+            isLoggedIn = true; // Set the user as logged in
+        
+            
+        
+            // Show the other sections in the menu bar after successful login
+            showOtherSectionsInMenuBar();
+            showContent('home');
+            
+
+
+            // Show the other sections after successful login
+           
+            // You can add more sections here
+        } else {
+            loginError.textContent = 'Invalid username or password. Please try again.';
+        }
+
+        // Clear the input fields
+        usernameInput.value = '';
+        passwordInput.value = '';
+    }
+
+    // Function to show the other sections in the menu bar
+        // Function to show the footer
+   
+    
+    function showOtherSectionsInMenuBar() {
+        const navbar = document.querySelector('.navbar ul');
+        
+        // Remove the login button from the menu bar if it exists
+        const loginButton = document.querySelector('.navbar ul .login-button');
+        if (loginButton) {
+            navbar.removeChild(loginButton);
+        }
+
+        // Add the login button at the end of the menu bar
+        navbar.innerHTML += `
+            <li><a href="#home" onclick="showContent('home')">Home</a></li>
+            <li><a href="#about" onclick="showContent('about')">About</a></li>
+            <li><a href="#contact" onclick="showContent('contact')">Contact</a></li>
+           
+        `;
+    }
+        // Function to open the "Make CV" page
+        function openMakeCVPage() {
+            // Open the new HTML file in a new window or tab
+            window.open('cv.html', '_blank');
+        }
+
+    // Add a click event listener to the login button
+    document.getElementById('login-button').addEventListener('click', () => {
+        // Only handle login if the user is not already logged in
+        if (!isLoggedIn) {
+            handleLogin();
+        }
+    });
+
+    // Initially, show only the "Login" session in the menu bar
+    document.querySelector('.navbar ul').innerHTML = `
+        <li class="login-button"><a href="#login" onclick="showContent('login')">Login</a></li>
+    `;
+
+    // Initially, show only the login section
+    showContent('login');
+     // Function to trigger the lightning effect
+     function triggerLightning() {
+        const lightningSVG = document.querySelector('.lightning-svg');
+        lightningSVG.style.opacity = 1;
+
+        setTimeout(() => {
+            lightningSVG.style.opacity = 0;
+        }, 300); // Adjust the duration of the lightning effect (in milliseconds)
+    }
+
+    // Trigger the lightning effect (you can call this function as needed)
+    triggerLightning();
+</script>
+
+
+
+    
+</body>
+
+</html>
