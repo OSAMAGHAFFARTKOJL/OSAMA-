@@ -1,0 +1,7 @@
+language: python
+services:
+  - mysql
+before_install:
+  - sudo apt-get install libmysqlclient-dev
+install:
+  - pip install -r requirements.txt
